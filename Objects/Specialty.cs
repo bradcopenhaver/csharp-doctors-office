@@ -110,5 +110,77 @@ namespace DrOffice.Objects
         conn.Close();
       }
     }
+
+    public static Specialty Find(int id)
+    {
+      SqlConnection conn = DB.Connection();
+      conn.Open();
+
+      SqlCommand cmd = new SqlCommand("SELECT * FROM specialties WHERE id = @SpecialtyId;", conn);
+      SqlParameter specialtyIdParameter = new SqlParameter();
+      specialtyIdParameter.ParameterName = "@SpecialtyId";
+      specialtyIdParameter.Value = id.ToString();
+      cmd.Parameters.Add(specialtyIdParameter);
+      SqlDataReader rdr = cmd.ExecuteReader();
+
+      int foundSpecialtyId = 0;
+      string foundSpecialtyName = null;
+      while(rdr.Read())
+      {
+        foundSpecialtyId = rdr.GetInt32(0);
+        foundSpecialtyName = rdr.GetString(1);
+      }
+      Specialty foundSpecialty = new Specialty(foundSpecialtyName, foundSpecialtyId);
+
+      if (rdr != null)
+      {
+        rdr.Close();
+      }
+      if (conn != null)
+      {
+        conn.Close();
+      }
+
+      return foundSpecialty;
+    }
+
+    public List<Doctor> FindDoctors()
+    {
+      SqlConnection conn = DB.Connection();
+      conn.Open();
+
+      SqlCommand cmd = new SqlCommand("SELECT * FROM doctors WHERE specialty_id = @SpecialtyId;", conn);
+      SqlParameter specialtyIdParameter = new SqlParameter();
+      specialtyIdParameter.ParameterName = "@SpecialtyId";
+      specialtyIdParameter.Value = (this)._id.ToString();
+      cmd.Parameters.Add(specialtyIdParameter);
+      SqlDataReader rdr = cmd.ExecuteReader();
+
+      List<Doctor> foundDoctors = new List<Doctor> {};
+      while(rdr.Read())
+      {
+        int foundDoctorId = 0;
+        string foundDoctorName = null;
+        int foundDoctorSpecialty = 0;
+
+        foundDoctorId = rdr.GetInt32(0);
+        foundDoctorName = rdr.GetString(1);
+        foundDoctorSpecialty = rdr.GetInt32(2);
+
+        Doctor foundDoctor = new Doctor(foundDoctorName, foundDoctorSpecialty, foundDoctorId);
+        foundDoctors.Add(foundDoctor);
+      }
+
+      if (rdr != null)
+      {
+        rdr.Close();
+      }
+      if (conn != null)
+      {
+        conn.Close();
+      }
+
+      return foundDoctors;
+    }
   }
 }

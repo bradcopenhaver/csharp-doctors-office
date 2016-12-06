@@ -16,6 +16,7 @@ namespace DrOffice
     public void Dispose()
     {
       Doctor.DeleteAll();
+      Specialty.DeleteAll();
     }
 
     [Fact]
@@ -35,24 +36,8 @@ namespace DrOffice
     }
   }
 }
-//
-//     [Fact]
-//     public void Test_SaveAssignsIdToObject()
-//     {
-//       //Arrange
-//       Task testTask = new Task("Mow the lawn", 1);
-//       testTask.Save();
-//
-//       //Act
-//       Task savedTask = Task.GetAll()[0];
-//
-//       int result = savedTask.GetId();
-//       int testId = testTask.GetId();
-//
-//       //Assert
-//       Assert.Equal(testId, result);
-//     }
-//
+
+
 //     [Fact]
 //     public void Test_FindFindsTaskInDatabase()
 //     {
