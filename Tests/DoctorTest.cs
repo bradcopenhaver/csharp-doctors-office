@@ -15,6 +15,7 @@ namespace DrOffice
     }
     public void Dispose()
     {
+      Patient.DeleteAll();
       Doctor.DeleteAll();
       Specialty.DeleteAll();
     }
@@ -31,6 +32,26 @@ namespace DrOffice
       expectedResult.Add(newDoctor);
       List<Doctor> result = Doctor.GetAll();
 
+      //Assert
+      Assert.Equal(expectedResult, result);
+    }
+
+    [Fact]
+    public void Test_ReturnPatientsByDoctor()
+    {
+      //Arrange
+      Doctor newDoctor = new Doctor("Horton", 1, 1);
+      List<Patient> expectedResult = new List<Patient> {};
+      Patient patient1 = new Patient("Fred", "Broken Leg", 1);
+      Patient patient2 = new Patient("Joe", "Sore throat", 1);
+      patient1.Save();
+      patient2.Save();
+      expectedResult.Add(patient1);
+      expectedResult.Add(patient2);
+
+      //Act
+      List<Patient> result = newDoctor.FindPatients();
+      
       //Assert
       Assert.Equal(expectedResult, result);
     }

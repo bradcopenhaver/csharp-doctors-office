@@ -149,7 +149,7 @@ namespace DrOffice.Objects
       SqlConnection conn = DB.Connection();
       conn.Open();
 
-      SqlCommand cmd = new SqlCommand("SELECT * FROM doctors WHERE specialty_id = @SpecialtyId;", conn);
+      SqlCommand cmd = new SqlCommand("SELECT * FROM doctors WHERE specialty_id = @SpecialtyId ORDER BY name;", conn);
       SqlParameter specialtyIdParameter = new SqlParameter();
       specialtyIdParameter.ParameterName = "@SpecialtyId";
       specialtyIdParameter.Value = (this)._id.ToString();

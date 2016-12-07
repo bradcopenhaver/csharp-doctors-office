@@ -16,6 +16,8 @@ namespace DrOffice
     public void Dispose()
     {
       Patient.DeleteAll();
+      Doctor.DeleteAll();
+      Specialty.DeleteAll();
     }
 
     [Fact]

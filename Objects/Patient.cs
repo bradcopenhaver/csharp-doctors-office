@@ -61,7 +61,8 @@ namespace DrOffice.Objects
         bool idEquality = (this.GetId() == newPatient.GetId());
         bool nameEquality = (this.GetName() == newPatient.GetName());
         bool ailmentEquality = (this.GetAilment() == newPatient.GetAilment());
-        return (idEquality && nameEquality && ailmentEquality);
+        bool drIdEquality = (this.GetDoctorId() == newPatient.GetDoctorId());
+        return (idEquality && nameEquality && ailmentEquality && drIdEquality);
       }
     }
 

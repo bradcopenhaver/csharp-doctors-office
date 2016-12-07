@@ -126,6 +126,45 @@ namespace DrOffice.Objects
       }
     }
 
-    
+    public List<Patient> FindPatients()
+    {
+      SqlConnection conn = DB.Connection();
+      conn.Open();
+
+      SqlCommand cmd = new SqlCommand("SELECT * FROM patients WHERE doctor_id = @DoctorId ORDER BY name;", conn);
+      SqlParameter drIdParameter = new SqlParameter();
+      drIdParameter.ParameterName = "@DoctorId";
+      drIdParameter.Value = (this)._id.ToString();
+      cmd.Parameters.Add(drIdParameter);
+      SqlDataReader rdr = cmd.ExecuteReader();
+
+      List<Patient> foundPatients = new List<Patient> {};
+      while(rdr.Read())
+      {
+        int foundPatientId = 0;
+        string foundPatientName = null;
+        string foundPatientAilment = null;
+        int foundPatientDrId = 0;
+
+        foundPatientId = rdr.GetInt32(0);
+        foundPatientName = rdr.GetString(1);
+        foundPatientAilment = rdr.GetString(2);
+        foundPatientDrId = rdr.GetInt32(3);
+
+        Patient foundPatient = new Patient(foundPatientName, foundPatientAilment, foundPatientDrId, foundPatientId);
+        foundPatients.Add(foundPatient);
+      }
+
+      if (rdr != null)
+      {
+        rdr.Close();
+      }
+      if (conn != null)
+      {
+        conn.Close();
+      }
+
+      return foundPatients;
+    }
   }
 }
